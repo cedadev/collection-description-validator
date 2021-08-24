@@ -1,0 +1,26 @@
+datasets:
+  - /badc/cmip6/data/
+defaults:
+  license: CC-BY-SA-4.0
+facets:
+  extraction_methods:
+    - name: regex
+      inputs:
+        regex: '^(?P<var_id>[^_]+)_(?P<table_id>[^_]+)_(?P<source_id>[^_]+)_(?P<experiment_id>[^_]+)_r(?P<realization_index>\d*)i(?P<initialisation_index>\d*)p(?P<physics_index>\d*)f(?P<forcing_index>\d*)_(?P<grid_label>[^_]+)_(?P<start_datetime>\d*)-(?P<end_datetime>\d*)'
+      pre_processors:
+        - name: filename_reducer
+      post_processors:
+        - name: isodate_processor
+          inputs:
+            date_keys:
+              - start_datetime
+              - end_datetime
+    - name: regex
+      inputs:
+        regex: '^\/(?:[^/]*/){3}(?P<mip_era>\w*)\/(?P<activity_id>\w*)\/(?P<institution_id>\w*)\/(?:[^/]*/){6}v(?P<version>\w*)'
+  aggregation_facets:
+    - mip_era
+    - activity_id
+    - institution_id
+    - table_id
+    - source_id
