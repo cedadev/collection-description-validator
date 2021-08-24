@@ -1,0 +1,10 @@
+datasets:
+  - /badc
+defaults:
+  properties:
+    datacentre: BADC
+categories:
+  - label: metadata
+    regex: 00README
+  - label: hidden
+    regex: \/\.

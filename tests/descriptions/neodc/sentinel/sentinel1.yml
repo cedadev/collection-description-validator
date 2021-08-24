@@ -1,0 +1,47 @@
+datasets:
+  - /neodc/sentinel1a/data
+defaults:
+  collection_id: wiLHc3sBhuk7QqVbjTmQ
+facets:
+  extraction_methods:
+    - name: regex
+      description: Extract facets from the file path
+      inputs:
+        regex: '^\/(?:[^/]*/)(?P<platform>\w*)(?:[^/]*/){2}(?P<instrument_mode>\w+)/(?P<processing_level>[A-Z0-9]+)_(?P<product_type>[\w]+)/(?P<processing_software>[A-Z]+)_(?P<product_version>\w+)'
+    - name: regex
+      description: Extract facets from the filename
+      inputs:
+        regex: '^(?:[^_]*_){5}(?P<start_datetime>[0-9T]+)_(?P<end_datetime>[0-9T]+)_(?P<orbit>\d+)'
+      pre_processors:
+        - name: filename_reducer
+      post_processors:
+        - name: isodate_processor
+          inputs:
+            date_keys:
+              - start_datetime
+              - end_datetime
+    - name: xml_extract
+      description: Extract facets from the manifest files
+      inputs:
+        filter_expr: '\.manifest$'
+        extraction_keys:
+          - name: instrument_type
+            key: './/safe:instrument/safe:familyName'
+            attribute: abbreviation
+        namespaces:
+            ns0: "http://www.w3.org/2001/XMLSchema-instance"
+            gml: "http://www.opengis.net/gml"
+            xfdu: "urn:ccsds:schema:xfdu:1"
+            safe: "http://www.esa.int/safe/sentinel-1.0"
+            s1: "http://www.esa.int/safe/sentinel-1.0/sentinel-1"
+            s1sar: "http://www.esa.int/safe/sentinel-1.0/sentinel-1/sar"
+            s1sarl1: "http://www.esa.int/safe/sentinel-1.0/sentinel-1/sar/level-1"
+            s1sarl2: "http://www.esa.int/safe/sentinel-1.0/sentinel-1/sar/level-2"
+            gx: "http://www.google.com/kml/ext/2.2"
+  aggregation_facets:
+    - platform
+    - instrument_mode
+    - processing_level
+    - product_type
+    - product_version
+    - start_datetime
