@@ -11,7 +11,7 @@ __pycache__/
 env/
 build/
 develop-eggs/
-dist/
+# dist/
 downloads/
 eggs/
 .eggs/
@@ -104,3 +104,6 @@ ENV/
 
 # IDE settings
 .vscode/
+*.xml
+*.iml
+

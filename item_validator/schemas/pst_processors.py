@@ -3,7 +3,8 @@ isodate_schema = {
     'type': 'dict',
     'schema': {
         'name': {
-            'type': 'string'
+            'type': 'string',
+            'regex': 'isodate_processor'
         },
         'inputs': {
             'type': 'dict',
@@ -23,7 +24,8 @@ string_join_schema = {
     'type': 'dict',
     'schema': {
         'name': {
-            'type': 'string'
+            'type': 'string',
+            'regex': 'string_join'
         },
         'inputs': {
             'type': 'dict',

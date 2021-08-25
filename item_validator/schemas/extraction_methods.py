@@ -5,24 +5,23 @@ __contact__ = 'kazi.mahir@stfc.ac.uk'
 __copyright__ = "Copyright 2020 United Kingdom Research and Innovation"
 __license__ = "BSD - see LICENSE file in top-level package directory"
 
-import item_validator.schemas.pre_processors as pre_processors
-import item_validator.schemas.pst_processors as pst_processors
-
-filename_reducer_schema = pre_processors.filename_reducer_schema
-
-isodate_schema = pst_processors.isodate_schema
-string_join_schema = pst_processors.string_join_schema
+from item_validator.schemas.pre_processors import *
+from item_validator.schemas.pst_processors import *
 
 header_schema = {
     'type': 'dict',
     'schema': {
         'name': {
-            'type': 'string'
+            'required': True,
+            'type': 'string',
+            'regex': 'header_extract'
         },
         'description': {
             'type': 'string'
         },
         'inputs': {
+            'dependencies': 'name',
+            'required': True,
             'type': 'dict',
             'schema': {
                 'attributes': {
@@ -40,28 +39,34 @@ regex_schema = {
     'type': 'dict',
     'schema': {
         'name': {
-            'type': 'string'
+            'required': True,
+            'type': 'string',
+            'regex': 'regex',
         },
         'description': {
             'type': 'string'
         },
         'inputs': {
+            'dependencies': 'name',
             'type': 'dict',
             'schema': {
                 'regex': {
-                    'type': 'string'
+                    'type': 'string',
                 }
             }
         },
         'pre_processors': {
+            'dependencies': ['name', 'inputs'],
             'type': 'list',
             'schema': {
                 'anyof': [
                     filename_reducer_schema,
+                    ceda_observation_schema,
                 ]
             }
         },
         'post_processors': {
+            'dependencies': ['name', 'inputs'],
             'type': 'list',
             'schema': {
                 'anyof': [
@@ -77,12 +82,15 @@ iso_schema = {
     'type': 'dict',
     'schema': {
         'name': {
-            'type': 'string'
+            'required': True,
+            'type': 'string',
+            'regex': 'iso19115'
         },
         'description': {
             'type': 'string'
         },
         'inputs': {
+            'dependencies': 'name',
             'type': 'dict',
             'schema': {
                 'url_template': {
@@ -102,14 +110,17 @@ iso_schema = {
             }
         },
         'pre_processors': {
+            'dependencies': ['name', 'inputs'],
             'type': 'list',
             'schema': {
                 'anyof': [
                     filename_reducer_schema,
+                    ceda_observation_schema,
                 ]
             }
         },
         'post_processors': {
+            'dependencies': ['name', 'inputs'],
             'type': 'list',
             'schema': {
                 'anyof': [
@@ -125,12 +136,15 @@ xml_schema = {
     'type': 'dict',
     'schema': {
         'name': {
-            'type': 'string'
+            'required': True,
+            'type': 'string',
+            'regex': 'xml_extract',
         },
         'description': {
             'type': 'string'
         },
         'inputs': {
+            'dependencies': 'name',
             'type': 'dict',
             'schema': {
                 'filter_expr': {

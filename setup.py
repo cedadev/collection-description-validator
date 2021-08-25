@@ -9,7 +9,7 @@ __contact__ = "kazi.mahir@stfc.ac.uk"
 __copyright__ = "Copyright 2020 United Kingdom Research and Innovation"
 __license__ = "BSD - see LICENSE file in top-level package directory"
 
-with open('README.rst') as readme_file:
+with open('README.md') as readme_file:
     readme = readme_file.read()
 
 with open('HISTORY.rst') as history_file:
@@ -35,7 +35,7 @@ setup(
     author=__author__,
     author_email=__contact__,
     python_requires='>=3.6',
-    setup_requires = ['setuptools_scm'],
+    setup_requires=['setuptools_scm'],
     use_scm_version=True,
     classifiers=[
         'Development Status :: 5 - Production/Stable',
@@ -70,11 +70,17 @@ setup(
     include_package_data=True,
     keywords='item_validator',
     name='item_validator',
-    packages=find_packages(include=['item_validator', 'item_validator.*']),
+    packages=find_packages(),
     test_suite='tests',
     tests_require=test_requirements,
     extras_require={"docs": docs_requirements,
                     "dev": dev_requirements},
     url='https://github.com/Mahir-Sparkess/item_validator',
     zip_safe=False,
+    version='1.0',
+    entry_points={
+        'console_scripts': [
+            'item-desc-validator = item_validator.item_validator:main',
+        ]
+    },
 )

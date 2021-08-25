@@ -1,7 +1,9 @@
-from item_validator.schemas.extraction_methods import header_schema, regex_schema, iso_schema, xml_schema
+from item_validator.schemas.extraction_methods \
+    import header_schema, regex_schema, iso_schema, xml_schema
 
 base_schema = {
     'datasets': {
+        'required': True,
         'type': 'list',
         'schema': {
             'type': 'string'
@@ -42,6 +44,7 @@ base_schema = {
     },
     'facets': {
         'type': 'dict',
+        'dependencies': 'defaults',
         'schema': {
             'allowed_facets': {
                 'type': 'list',
