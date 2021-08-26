@@ -1,3 +1,7 @@
+"""
+Test run file to run script as it would as a package with explicit imports.
+"""
+
 from glob import glob
 
 import yaml

@@ -1,0 +1,28 @@
+datasets:
+  - /badc/faam/data
+facets:
+  allowed_facets:
+    - project
+    - flight_number
+    - datetime
+  extraction_methods:
+    - name: regex
+      description: "Extract facets and datetime from filepath"
+      inputs:
+        regex: '^\/(?:[^/]*/)(?P<platform>\w*)\/(?:[^/]*/){1}(?P<year>\d*)\/(?P<flight_number>\w\d{3})-(?P<month>\w+)-(?P<day>\d{2})'
+      post_processors:
+        - name: string_join
+          inputs:
+            key_list:
+              - year
+              - month
+              - day
+            delimiter: '-'
+            output_key: datetime
+        - name: isodate_processor
+          inputs:
+            date_keys:
+              - datetime
+  aggregation_facets:
+    - platform
+    - flight_number
