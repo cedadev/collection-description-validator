@@ -1,0 +1,26 @@
+name:
+    required: true
+    type: string
+    regex: xml_extract
+description:
+    required: false
+    type: string
+inputs:
+    type: dict
+    schema:
+        filter_expr:
+            type: string
+        extraction_keys:
+            type: list
+            schema:
+                type: dict
+                schema:
+                    name:
+                        type: string
+                    key:
+                        type: string
+                    attribute:
+                        type: string
+        namespaces:
+            type: dict
+            allow_unknown: true

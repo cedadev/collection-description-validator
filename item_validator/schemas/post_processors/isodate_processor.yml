@@ -1,0 +1,11 @@
+name:
+    required: true
+    type: string
+    regex: isodate_processor
+inputs:
+    type: dict
+    schema:
+        date_keys:
+            type: list
+            schema:
+                type: string

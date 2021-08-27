@@ -12,26 +12,6 @@ from glob import glob
 import yaml
 from cerberus import Validator
 
-import item_validator.schemas.base as base
-from item_validator.schemas.extraction_methods import *
-from item_validator.schemas.pst_processors import *
-from item_validator.schemas.pre_processors import *
-
-subschema_map = {
-    'extraction_methods': {
-        'regex': regex_schema,
-        'header_extract': header_schema,
-        'iso19115': iso_schema,
-        'xml_extract': xml_schema,
-    },
-    'processors': {
-        'filename_reducer': filename_reducer_schema,
-        'ceda_observation': ceda_observation_schema,
-        'isodate_processor': isodate_schema,
-        'string_join': string_join_schema
-    }
-}
-
 
 class TextColours:
     HEADER = '\033[95m'
@@ -62,43 +42,9 @@ def load_dir(f: str) -> dict:
         return yaml.safe_load(stream)
 
 
-def err_report(d: dict, v: Validator):
-    """
-    Write an Error Report to identify location and cause of validation Fail
-
-    ==================================
-    d: Invalid item
-    v: The Validator Class
-    - Takes invalid item and return general error report from Cerberus
-    - Sub-validates the individual Extraction methods and returns an error report from cerberus of said sub-validation
-    - If Extraction methods fails and has processors, sub-validate the processors and return error report
-    """
-    print(f"{TextColours.FAIL}Error Report\n{v.errors}")
-    if d.get('facets', {}).get('extraction_methods'):
-        extraction_methods = d['facets']['extraction_methods']
-        for method in extraction_methods:
-            if method.get('name') in subschema_map['extraction_methods'].keys():
-                schema = subschema_map['extraction_methods'].get(method['name'])
-                t = v.validate(method, schema['schema'])
-                if not t:
-                    print(f"Extraction Method: {method.get('name')} Failed!\n"
-                          f"{v.errors}")
-                    if method.get('pre_processors') or method.get('post_processors'):
-                        processors = method.get('pre_processors', []) + method.get('post_processors', [])
-                        for processor in processors:
-                            if processor.get('name') in subschema_map['processors'].keys():
-                                schema = subschema_map['processors'].get(processor['name'])
-                                t = v.validate(processor, schema['schema'])
-                                if not t:
-                                    print(f"Processor: {processor['name']} Failed!\n"
-                                          f"{v.errors}")
-                            else:
-                                print(f"No such processor {processor.get('name', 'or missing name')}")
-            else:
-                print(f"No such extraction method {method.get('name', 'or missing name')}")
-    else:
-        print(f"{v.errors}")
-    print(f"End Report{TextColours.ENDC}\n")
+def find_file(path: str, f: str) -> str:
+    file = glob(f"{path}/**/{f}", recursive=True)
+    return file[0]
 
 
 def main():
@@ -110,18 +56,99 @@ def main():
     args = parser.parse_args()
     if args.dir[-1] != '/':
         args.dir = args.dir + '/'
-    files = glob(f'{args.dir}**/*.yml', recursive=True)
-    v = Validator(base.base_schema)
+    v = Validator()
 
-    for f in files:
+    basepath = os.path.dirname(__file__)
+    base_schema = load_dir(find_file(basepath, "base.yml"))
+    extraction_files = os.listdir(os.path.join(basepath, "schemas/extraction_methods"))
+    pre_process_files = os.listdir(os.path.join(basepath, "schemas/pre_processors"))
+    post_process_files = os.listdir(os.path.join(basepath, "schemas/post_processors"))
+
+    schemamap = {
+        'base_schema': base_schema,
+        'extraction_methods': {os.path.splitext(f)[0]: load_dir(find_file(basepath, f)) for f in extraction_files},
+        'pre_processors': {os.path.splitext(f)[0]: load_dir(find_file(basepath, f)) for f in pre_process_files},
+        'post_processors': {os.path.splitext(f)[0]: load_dir(find_file(basepath, f)) for f in post_process_files}
+    }
+
+    item_descriptions = glob(f"{args.dir}**/*.yml", recursive=True)
+
+    print_pass = f"{TextColours.BOLD}{TextColours.OKGREEN}Pass{TextColours.ENDC}"
+    print_fail = f"{TextColours.BOLD}{TextColours.FAIL}Fail{TextColours.FAIL}"
+
+    for f in item_descriptions:
+        valid = True
         d = load_dir(f)
-        t = v.validate(d)
+        t = v.validate(d, base_schema)
         print(f"Validating: {f.split('/')[-1]}..", end="")
         if t:
-            print(f"{TextColours.BOLD}{TextColours.OKGREEN}{t}{TextColours.ENDC}")
-        if not t:
-            print(f"{TextColours.BOLD}{TextColours.FAIL}{t}{TextColours.ENDC}")
-            err_report(d, v)
+            if d.get('facets', {}).get('extraction_methods'):
+                extraction_methods = d['facets']['extraction_methods']
+                for method in extraction_methods:
+                    try:
+                        method_name = method['name']
+                        if method_name in schemamap['extraction_methods'].keys():
+                            schema = schemamap['extraction_methods'].get(method_name)
+                            t = v.validate(method, schema)
+                            if t:
+                                if method.get('pre_processors'):
+                                    pre_processors = method['pre_processors']
+                                    for process in pre_processors:
+                                        try:
+                                            process_name = process['name']
+                                            if process_name in schemamap['pre_processors'].keys():
+                                                schema = schemamap['pre_processors'].get(process_name)
+                                                t = v.validate(process, schema)
+                                                if not t:
+                                                    valid = False
+                                                    print(f"{print_fail}\n"
+                                                          f"{TextColours.FAIL}{v.errors}{TextColours.ENDC}")
+                                            else:
+                                                valid = False
+                                                print(f"{print_fail}\n{TextColours.FAIL}"
+                                                      f"No such pre_processor: {process_name}{TextColours.ENDC}")
+                                        except KeyError:
+                                            valid = False
+                                            print(f"{print_fail}"
+                                                  f"{TextColours.FAIL}Missing pre_process name{TextColours.ENDC}")
+                                if method.get('post_processors'):
+                                    processors = method['post_processors']
+                                    for process in processors:
+                                        try:
+                                            process_name = process['name']
+                                            if process_name in schemamap['post_processors'].keys():
+                                                schema = schemamap['post_processors'].get(process_name)
+                                                t = v.validate(process, schema)
+                                                if not t:
+                                                    valid = False
+                                                    print(f"{print_fail}\n"
+                                                          f"{TextColours.FAIL}{v.errors}{TextColours.ENDC}")
+                                            else:
+                                                valid = False
+                                                print(f"{print_fail}\n{TextColours.FAIL}"
+                                                      f"No such post_processor: {process_name}{TextColours.ENDC}")
+                                        except KeyError:
+                                            valid = False
+                                            print(f"{print_fail}"
+                                                  f"{TextColours.FAIL}Missing post_process name{TextColours.ENDC}")
+                            else:
+                                valid = False
+                                print(f"{print_fail}\n"
+                                      f"{TextColours.FAIL}{v.errors}{TextColours.ENDC}")
+                        else:
+                            valid = False
+                            print(f"{print_fail}\n{TextColours.FAIL}"
+                                  f"No such extraction_method: {method_name}{TextColours.ENDC}")
+                    except KeyError:
+                        valid = False
+                        print(f"{print_fail}\n"
+                              f"{TextColours.FAIL}Missing extract_method name{TextColours.ENDC}")
+        else:
+            valid = False
+            print(f"{print_fail}\n"
+                  f"{TextColours.FAIL}{v.errors}{TextColours.ENDC}")
+        if valid:
+            print(print_pass)
 
 
 if __name__ == '__main__':

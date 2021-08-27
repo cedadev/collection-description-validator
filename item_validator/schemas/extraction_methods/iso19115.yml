@@ -1,0 +1,29 @@
+name:
+    required: true
+    type: string
+    regex: iso19115
+inputs:
+    type: dict
+    schema:
+        url_remplate:
+            required: true
+            type: string
+        extraction_keys:
+            type: list
+            schema:
+                type: dict
+                schema:
+                    name:
+                        dependencies: key
+                        type: string
+                    key:
+                        dependencies: name
+                        type: string
+pre_processors:
+    required: false
+    type: list
+    allow_unknown: true
+post_processors:
+    required: false
+    type: list
+    allow_unknown: true

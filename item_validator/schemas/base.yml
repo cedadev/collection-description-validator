@@ -1,0 +1,42 @@
+datasets:
+    required: true
+    type: list
+    minlength: 1
+    schema:
+        type: string
+categories:
+    required: false
+    type: list
+    schema:
+        type: dict
+        schema:
+            label:
+                type: string
+            regex:
+                type: string
+defaults:
+    required: false
+    type: dict
+    allow_unknown: true
+facets:
+    required: false
+    dependencies: defaults
+    type: dict
+    schema:
+        allowed_facets:
+            required: false
+            type: list
+        extraction_methods:
+            required: false
+            type: list
+            allow_unknown: true
+        aggregation_facets:
+            required: false
+            dependencies: extraction_methods
+            type: list
+            schema:
+                type: string
+
+
+
+
