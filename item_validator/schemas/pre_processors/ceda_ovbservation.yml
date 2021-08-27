@@ -1,0 +1,10 @@
+name:
+    required: true
+    type: string
+    regex: ceda_observation
+inputs:
+    type: dict
+    schema:
+        url_template:
+            type: string
+

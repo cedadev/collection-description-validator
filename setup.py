@@ -71,6 +71,7 @@ setup(
     keywords='item_validator',
     name='item_validator',
     packages=find_packages(),
+    package_data={"": ['*.yml']},
     test_suite='tests',
     tests_require=test_requirements,
     extras_require={"docs": docs_requirements,

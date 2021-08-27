@@ -1,0 +1,19 @@
+name:
+    required: true
+    type: string
+    regex: header_extract
+description:
+    required: false
+    type: string
+inputs:
+    type: dict
+    schema:
+        attributes:
+            type: list
+            allow_unknown: true
+            schema:
+                type: string
+post_processors:
+    required: false
+    type: list
+    allow_unknown: true
