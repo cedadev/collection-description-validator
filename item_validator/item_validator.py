@@ -43,6 +43,9 @@ def load_dir(f: str) -> dict:
 
 
 def find_file(path: str, f: str) -> str:
+    """
+    Use glob to find the location of a file in the code with absolute path
+    """
     file = glob(f"{path}/**/{f}", recursive=True)
     return file[0]
 
@@ -79,6 +82,8 @@ def main():
     for f in item_descriptions:
         valid = True
         d = load_dir(f)
+
+        # GENERAL VALIDATION, BASIC SCHEMA TO VALIDATE THAT ALL IMPORT ATTRIBUTES ARE PRESENT
         t = v.validate(d, base_schema)
         print(f"Validating: {f.split('/')[-1]}..", end="")
         if t:
@@ -89,6 +94,7 @@ def main():
                         method_name = method['name']
                         if method_name in schemamap['extraction_methods'].keys():
                             schema = schemamap['extraction_methods'].get(method_name)
+                            # EXTRACTION_METHOD VALIDATION
                             t = v.validate(method, schema)
                             if t:
                                 if method.get('pre_processors'):
@@ -98,6 +104,7 @@ def main():
                                             process_name = process['name']
                                             if process_name in schemamap['pre_processors'].keys():
                                                 schema = schemamap['pre_processors'].get(process_name)
+                                                # PRE-PROCESSOR VALIDATION
                                                 t = v.validate(process, schema)
                                                 if not t:
                                                     valid = False
@@ -118,6 +125,7 @@ def main():
                                             process_name = process['name']
                                             if process_name in schemamap['post_processors'].keys():
                                                 schema = schemamap['post_processors'].get(process_name)
+                                                # POST-PROCESSOR VALIDATION
                                                 t = v.validate(process, schema)
                                                 if not t:
                                                     valid = False
