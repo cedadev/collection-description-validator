@@ -5,6 +5,8 @@ the validator fails.
 
 ## Installation
 
+* change directory into item_validator and run `python setup.py sdist`,
+  this will make a tar.gz zipped package in a new directory called dist.
 * locate the `item_validator-*.tar.gz` file.
 * In the terminal `pip install <filepath>/<item-validator-*.tar.gz>` where the package will be
 pip installed.
@@ -12,6 +14,7 @@ pip installed.
 
 ## Usage
 
+### Commands
 The script when installed provides the command:
 
 * `item-desc-validator --dir <filepath>`: This command will read all **.yml** files in either the `--dir <filepath>`
@@ -21,6 +24,13 @@ of your choosing or current working directory if no path is given.
 The command will output the validation test of the yaml files, with either True or False if the files pass the
 validator schema. If a file fails the check, the file will be list as False alongside the validator error report where
 the checks have failed.
+
+### Adding Schemas
+To add more validation schemas of extraction_methods, pre_processors & post_processors, they can be added as **.yml**
+files under `item_validator/schemas/` in the appropriate directory.
+
+The convention of the **.yml** validation schemas uses [Cerberus](https://docs.python-cerberus.org/en/stable/)
+and follows the file name should be <name>.yml where name is the name attribute of the validator.
 
 # Workflow
 

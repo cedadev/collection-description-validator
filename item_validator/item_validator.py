@@ -112,8 +112,8 @@ def main():
                                                           f"{TextColours.FAIL}{v.errors}{TextColours.ENDC}")
                                             else:
                                                 valid = False
-                                                print(f"{print_fail}\n{TextColours.FAIL}"
-                                                      f"No such pre_processor: {process_name}{TextColours.ENDC}")
+                                                print(f"{print_fail}\n{TextColours.WARNING}"
+                                                      f"WARNING: No such pre_processor: {process_name}{TextColours.ENDC}")
                                         except KeyError:
                                             valid = False
                                             print(f"{print_fail}"
@@ -133,8 +133,8 @@ def main():
                                                           f"{TextColours.FAIL}{v.errors}{TextColours.ENDC}")
                                             else:
                                                 valid = False
-                                                print(f"{print_fail}\n{TextColours.FAIL}"
-                                                      f"No such post_processor: {process_name}{TextColours.ENDC}")
+                                                print(f"{print_fail}\n{TextColours.WARNING}"
+                                                      f"WARNING: No such pre_processor: {process_name}{TextColours.ENDC}")
                                         except KeyError:
                                             valid = False
                                             print(f"{print_fail}"
@@ -145,8 +145,8 @@ def main():
                                       f"{TextColours.FAIL}{v.errors}{TextColours.ENDC}")
                         else:
                             valid = False
-                            print(f"{print_fail}\n{TextColours.FAIL}"
-                                  f"No such extraction_method: {method_name}{TextColours.ENDC}")
+                            print(f"{print_fail}\n{TextColours.WARNING}"
+                                  f"WARNING: No such extraction_method: {method_name}{TextColours.ENDC}")
                     except KeyError:
                         valid = False
                         print(f"{print_fail}\n"
