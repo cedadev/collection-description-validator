@@ -3,4 +3,5 @@
   description: Check description of items against schemas
   entry: item-desc-validator
   always_run: true
+  pass_filenames: false
   language: python
