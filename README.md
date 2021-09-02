@@ -48,3 +48,19 @@ The validator will catch three types of invalidation:
 - missing names, can not find a schema to validate against as there is no name in the file.
 - non-existent name, the name in the file does not match against any validation schemas.
 
+## Pre-Commit Config
+
+If to run on pre-commit hook, add the following to the
+.pre-commit-config.yaml file:
+
+```yaml
+repos:
+  - repo: https://github.com/Mahir-Sparkess/item_validator.git
+    rev: v1.0.3
+    hooks:
+      - id: item-desc-validator
+        args: [--filepath=<FILEPATH>]
+```
+
+where args are **optional** and <FILEPATH> is the location
+of the item descriptions.

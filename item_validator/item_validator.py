@@ -74,7 +74,8 @@ def main():
         'post_processors': {os.path.splitext(f)[0]: load_dir(find_file(basepath, f)) for f in post_process_files}
     }
 
-    item_descriptions = glob(f"{args.filepath}**/*.yml", recursive=True)
+    item_descriptions = glob(f"{args.filepath}**/*.yml", recursive=True) + \
+                        glob(f"{args.filepath}**/*.yaml", recursive=True)
 
     print_pass = f"{TextColours.BOLD}{TextColours.OKGREEN}Pass{TextColours.ENDC}"
     print_fail = f"{TextColours.BOLD}{TextColours.FAIL}Fail{TextColours.FAIL}"
