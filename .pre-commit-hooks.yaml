@@ -6,4 +6,3 @@
   pass_filenames: false
   verbose: true
   language: python
-  args: ["--filepath"]
