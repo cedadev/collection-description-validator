@@ -55,10 +55,10 @@ def main():
     Run Script on file path, check all .yml files in input directory against validation schema and return results.
     """
     parser = argparse.ArgumentParser(description="Validate .yml items")
-    parser.add_argument("--dir", help="Directory or Filepath", type=dir_path, default=os.getcwd(), required=False)
+    parser.add_argument("--filepath", help="Directory or Filepath", type=dir_path, default=os.getcwd(), required=False)
     args = parser.parse_args()
-    if args.dir[-1] != '/':
-        args.dir = args.dir + '/'
+    if args.filepath[-1] != '/':
+        args.filepath = args.filepath + '/'
     v = Validator()
 
     basepath = os.path.dirname(__file__)
@@ -74,29 +74,29 @@ def main():
         'post_processors': {os.path.splitext(f)[0]: load_dir(find_file(basepath, f)) for f in post_process_files}
     }
 
-    item_descriptions = glob(f"{args.dir}**/*.yml", recursive=True)
+    item_descriptions = glob(f"{args.filepath}**/*.yml", recursive=True)
 
     print_pass = f"{TextColours.BOLD}{TextColours.OKGREEN}Pass{TextColours.ENDC}"
     print_fail = f"{TextColours.BOLD}{TextColours.FAIL}Fail{TextColours.FAIL}"
 
-    for f in item_descriptions:
+    for file in item_descriptions:
         valid = True
-        d = load_dir(f)
+        desc = load_dir(file)
 
         # GENERAL VALIDATION, BASIC SCHEMA TO VALIDATE THAT ALL IMPORT ATTRIBUTES ARE PRESENT
-        t = v.validate(d, base_schema)
-        print(f"Validating: {f.split('/')[-1]}..", end="")
-        if t:
-            if d.get('facets', {}).get('extraction_methods'):
-                extraction_methods = d['facets']['extraction_methods']
+        check = v.validate(desc, base_schema)
+        print(f"Validating: {file.split('/')[-1]}..", end="")
+        if check:
+            if desc.get('facets', {}).get('extraction_methods'):
+                extraction_methods = desc['facets']['extraction_methods']
                 for method in extraction_methods:
                     try:
                         method_name = method['name']
                         if method_name in schemamap['extraction_methods'].keys():
                             schema = schemamap['extraction_methods'].get(method_name)
                             # EXTRACTION_METHOD VALIDATION
-                            t = v.validate(method, schema)
-                            if t:
+                            check = v.validate(method, schema)
+                            if check:
                                 if method.get('pre_processors'):
                                     pre_processors = method['pre_processors']
                                     for process in pre_processors:
@@ -105,8 +105,8 @@ def main():
                                             if process_name in schemamap['pre_processors'].keys():
                                                 schema = schemamap['pre_processors'].get(process_name)
                                                 # PRE-PROCESSOR VALIDATION
-                                                t = v.validate(process, schema)
-                                                if not t:
+                                                check = v.validate(process, schema)
+                                                if not check:
                                                     valid = False
                                                     print(f"{print_fail}\n"
                                                           f"{TextColours.FAIL}{v.errors}{TextColours.ENDC}")
@@ -126,8 +126,8 @@ def main():
                                             if process_name in schemamap['post_processors'].keys():
                                                 schema = schemamap['post_processors'].get(process_name)
                                                 # POST-PROCESSOR VALIDATION
-                                                t = v.validate(process, schema)
-                                                if not t:
+                                                check = v.validate(process, schema)
+                                                if not check:
                                                     valid = False
                                                     print(f"{print_fail}\n"
                                                           f"{TextColours.FAIL}{v.errors}{TextColours.ENDC}")
