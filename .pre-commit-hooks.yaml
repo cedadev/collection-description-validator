@@ -2,4 +2,5 @@
   name: Item Description Validator
   description: Check description of items against schemas
   entry: item-desc-validator
+  always_run: true
   language: python
