@@ -1,0 +1,5 @@
+- id: item-desc-validator
+  name: Item Description Validator
+  description: Check description of items against schemas
+  entry: item-desc-validator
+  language: python
