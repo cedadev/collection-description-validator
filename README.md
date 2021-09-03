@@ -56,7 +56,7 @@ If to run on pre-commit hook, add the following to the
 ```yaml
 repos:
   - repo: https://github.com/Mahir-Sparkess/item_validator.git
-    rev: <latest version>
+    rev: <branch|master>
     hooks:
       - id: item-desc-validator
         args: [--filepath=<FILEPATH>]
