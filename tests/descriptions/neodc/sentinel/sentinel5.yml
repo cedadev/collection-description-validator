@@ -1,7 +1,7 @@
 datasets:
   - /neodc/sentinel5p/data
-defaults:
-  collection_id: Ic93XnsBhuk7QqVbSFwS
+collection:
+  id: Ic93XnsBhuk7QqVbSFwS
 facets:
   extraction_methods:
     - name: regex
