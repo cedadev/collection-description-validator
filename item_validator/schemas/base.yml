@@ -14,9 +14,13 @@ categories:
                 type: string
             regex:
                 type: string
-defaults:
+collection:
     required: false
     type: dict
+    schema:
+        id:
+            required: true
+            type: string
     allow_unknown: true
 facets:
     required: false
