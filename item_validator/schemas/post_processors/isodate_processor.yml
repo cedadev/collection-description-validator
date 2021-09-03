@@ -5,6 +5,8 @@ name:
 inputs:
     type: dict
     schema:
+        format:
+            type: string
         date_keys:
             type: list
             schema:

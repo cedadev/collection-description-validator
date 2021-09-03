@@ -1,7 +1,7 @@
 datasets:
   - /neodc/sentinel1a/data
-defaults:
-  collection_id: wiLHc3sBhuk7QqVbjTmQ
+collection:
+  id: wiLHc3sBhuk7QqVbjTmQ
 facets:
   extraction_methods:
     - name: regex
