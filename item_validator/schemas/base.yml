@@ -24,7 +24,7 @@ collection:
     allow_unknown: true
 facets:
     required: false
-    dependencies: defaults
+    dependencies: collection
     type: dict
     schema:
         allowed_facets:

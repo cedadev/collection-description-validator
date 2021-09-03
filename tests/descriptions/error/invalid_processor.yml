@@ -1,7 +1,7 @@
 datasets:
   - /badc/faam/data
-defaults:
-  collection_id: WH5qEHoBZp5aDdjsfMv-
+collection:
+  id: WH5qEHoBZp5aDdjsfMv-
 facets:
   allowed_facets:
     - project
