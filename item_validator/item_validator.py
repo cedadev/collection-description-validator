@@ -55,7 +55,7 @@ def main():
     Run Script on file path, check all .yml files in input directory against validation schema and return results.
     """
     parser = argparse.ArgumentParser(description="Validate .yml items")
-    parser.add_argument("--filepath", help="Directory or Filepath", type=dir_path, default=os.getcwd(), required=False)
+    parser.add_argument("filepath", help="Directory or Filepath", type=dir_path, default=os.getcwd())
     args = parser.parse_args()
     if args.filepath[-1] != '/':
         args.filepath = args.filepath + '/'

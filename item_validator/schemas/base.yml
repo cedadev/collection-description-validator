@@ -4,6 +4,15 @@ datasets:
     minlength: 1
     schema:
         type: string
+defaults:
+    required: false
+    type: dict
+mappings:
+    required: false
+    type: dict
+overrides:
+    required: false
+    type: dict
 categories:
     required: false
     type: list

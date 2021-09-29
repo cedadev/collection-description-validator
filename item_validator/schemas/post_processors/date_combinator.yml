@@ -1,0 +1,13 @@
+name:
+    required: true
+    type: string
+    regex: date_combinator
+inputs:
+    type: dict
+    schema:
+        destructive:
+            type: bool
+        output_key:
+            type: string
+        format:
+            type: string

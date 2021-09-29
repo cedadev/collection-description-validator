@@ -1,0 +1,9 @@
+name:
+    required: true
+    type: string
+    regex: facet_map
+inputs:
+    type: dict
+    schema:
+        term_map:
+            type: dict

@@ -1,0 +1,11 @@
+name:
+    required: true
+    type: string
+    regex: stac_bbox
+inputs:
+    type: dict
+    schema:
+        key_list:
+            type: list
+            schema:
+                type: string
