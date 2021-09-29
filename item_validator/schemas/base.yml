@@ -7,6 +7,27 @@ datasets:
 defaults:
     required: false
     type: dict
+    schema:
+        properties:
+            required: false
+            type: dict
+            schema:
+                source_classifier:
+                    required: false
+                    type: string
+                    allowed:
+                        - laboratories
+                        - land surface stations
+                        - remote sensing instruments
+                        - sea surface stations
+                        - satellites
+                        - ships
+                        - aircraft
+                        - nwp models
+                        - climate models
+                        - reanalysis model runs
+                        - other computation types
+                        - undefined
 mappings:
     required: false
     type: dict
@@ -47,9 +68,6 @@ facets:
             required: false
             dependencies: extraction_methods
             type: list
-            schema:
-                type: string
-
 
 
 
