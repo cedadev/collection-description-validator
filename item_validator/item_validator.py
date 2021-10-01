@@ -109,15 +109,15 @@ def main():
                                                 check = v.validate(process, schema)
                                                 if not check:
                                                     valid = False
-                                                    print(f"{print_fail}\n"
+                                                    raise ValueError(f"{print_fail}\n"
                                                           f"{TextColours.FAIL}{v.errors}{TextColours.ENDC}")
                                             else:
                                                 valid = False
-                                                print(f"{print_fail}\n{TextColours.WARNING}"
+                                                raise ValueError(f"{print_fail}\n{TextColours.WARNING}"
                                                       f"WARNING: No such pre_processor: {process_name}{TextColours.ENDC}")
                                         except KeyError:
                                             valid = False
-                                            print(f"{print_fail}"
+                                            raise ValueError(f"{print_fail}"
                                                   f"{TextColours.FAIL}Missing pre_process name{TextColours.ENDC}")
                                 if method.get('post_processors'):
                                     processors = method['post_processors']
@@ -130,31 +130,31 @@ def main():
                                                 check = v.validate(process, schema)
                                                 if not check:
                                                     valid = False
-                                                    print(f"{print_fail}\n"
+                                                    raise ValueError(f"{print_fail}\n"
                                                           f"{TextColours.FAIL}{v.errors}{TextColours.ENDC}")
                                             else:
                                                 valid = False
-                                                print(f"{print_fail}\n{TextColours.WARNING}"
+                                                raise ValueError(f"{print_fail}\n{TextColours.WARNING}"
                                                       f"WARNING: No such pre_processor: {process_name}{TextColours.ENDC}")
                                         except KeyError:
                                             valid = False
-                                            print(f"{print_fail}"
+                                            raise ValueError(f"{print_fail}"
                                                   f"{TextColours.FAIL}Missing post_process name{TextColours.ENDC}")
                             else:
                                 valid = False
-                                print(f"{print_fail}\n"
+                                raise ValueError(f"{print_fail}\n"
                                       f"{TextColours.FAIL}{v.errors}{TextColours.ENDC}")
                         else:
                             valid = False
-                            print(f"{print_fail}\n{TextColours.WARNING}"
+                            raise ValueError(f"{print_fail}\n{TextColours.WARNING}"
                                   f"WARNING: No such extraction_method: {method_name}{TextColours.ENDC}")
                     except KeyError:
                         valid = False
-                        print(f"{print_fail}\n"
+                        raise ValueError(f"{print_fail}\n"
                               f"{TextColours.FAIL}Missing extract_method name{TextColours.ENDC}")
         else:
             valid = False
-            print(f"{print_fail}\n"
+            raise ValueError(f"{print_fail}\n"
                   f"{TextColours.FAIL}{v.errors}{TextColours.ENDC}")
         if valid:
             print(print_pass)
