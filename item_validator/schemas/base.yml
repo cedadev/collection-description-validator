@@ -7,12 +7,13 @@ datasets:
 defaults:
     required: false
     type: dict
+    allow_unknown: true
     schema:
         properties:
             required: false
             type: dict
             schema:
-                source_classifier:
+                source_classification:
                     required: false
                     type: string
                     allowed:
@@ -28,6 +29,7 @@ defaults:
                         - reanalysis model runs
                         - other computation types
                         - undefined
+           allow_unknown: true
 mappings:
     required: false
     type: dict
