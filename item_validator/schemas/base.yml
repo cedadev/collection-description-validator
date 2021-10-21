@@ -29,7 +29,6 @@ defaults:
                         - climate models
                         - reanalysis model runs
                         - other computation types
-                        - other mobile platforms
                         - undefined
                 permitted_use:
                     required: false
