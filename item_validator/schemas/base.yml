@@ -28,7 +28,11 @@ defaults:
                         - climate models
                         - reanalysis model runs
                         - other computation types
+                        - other mobile platforms
                         - undefined
+                permitted_use:
+                    required: false
+                    type: list
 mappings:
     required: false
     type: dict
