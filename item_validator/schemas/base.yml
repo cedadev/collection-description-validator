@@ -24,6 +24,7 @@ defaults:
                         - satellites
                         - ships
                         - aircraft
+                        - other mobile platforms
                         - nwp models
                         - climate models
                         - reanalysis model runs
