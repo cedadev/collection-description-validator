@@ -115,6 +115,7 @@ class TestValidator:
                                 break
         assert all(validatorlist)
 
+    @pytest.mark.skip
     def test_base_error(self):
         files = glob(f"{os.path.dirname(__file__)}/descriptions/error/**/*.yml", recursive=True)
         v = Validator()
