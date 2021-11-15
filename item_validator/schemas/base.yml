@@ -52,14 +52,14 @@ categories:
 collection:
     required: false
     type: dict
+    allow_unknown: true
     schema:
         id:
             required: true
             type: string
-    allow_unknown: true
 facets:
     required: false
-    dependencies: collection
+    allow_unknown: false
     type: dict
     schema:
         allowed_facets:
@@ -72,6 +72,9 @@ facets:
         aggregation_facets:
             required: false
             dependencies: extraction_methods
+            type: list
+        search_facets:
+            required: false
             type: list
 
 
