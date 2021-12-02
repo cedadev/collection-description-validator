@@ -76,6 +76,14 @@ facets:
         search_facets:
             required: false
             type: list
-
-
-
+templates:
+    required: false
+    allow_unknown: false
+    type: dict
+    schema:
+        title_template:
+            required: false
+            type: string
+        description_template:
+            required: false
+            type: string
