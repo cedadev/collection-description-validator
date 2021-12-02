@@ -81,7 +81,7 @@ setup(
     version='1.0',
     entry_points={
         'console_scripts': [
-            'item-desc-validator = item_validator.item_validator:main',
+            'item-desc-validator = item_validator.validator_script:main',
         ]
     },
 )

@@ -1,5 +1,7 @@
 datasets:
   - /badc/faam/data
+collection:
+  id: WH5qEHoBZp5aDdjsfMv-
 facets:
   allowed_facets:
     - project
@@ -11,7 +13,7 @@ facets:
       inputs:
         regex: '^\/(?:[^/]*/)(?P<platform>\w*)\/(?:[^/]*/){1}(?P<year>\d*)\/(?P<flight_number>\w\d{3})-(?P<month>\w+)-(?P<day>\d{2})'
       post_processors:
-        - name: string_join
+        - name: post_invalid
           inputs:
             key_list:
               - year
@@ -19,7 +21,8 @@ facets:
               - day
             delimiter: '-'
             output_key: datetime
-        - name: isodate_processor
+      pre_processors:
+        - name: pre_invalid
           inputs:
             date_keys:
               - datetime
