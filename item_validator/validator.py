@@ -12,8 +12,41 @@ __contact__ = 'richard.d.smith@stfc.ac.uk'
 from cerberus import Validator
 
 # Local imports
-from .text_colours import TextColours
-from .utils import load_dir
+from .utils import load_dir, Messages
+
+
+def validate_processor(description: dict, schemamap: dict, processor: str) -> bool:
+    """"""
+    valid = True
+    v = Validator()
+    processors = description.get(processor, [])
+    for method in processors:
+        try:
+            # All processors must have a name defined
+            name = method['name']
+
+            # Find the schema for the given processor
+            if schema := schemamap[processor].get(name):
+
+                # Validation failed. Print the errors
+                if not v.validate(method, schema):
+                    valid = False
+                    Messages.print_errors(v)
+
+                # Validation succeeded. Try pre and post processors.
+                else:
+                    pre_processors_valid = validate_processor(method, schemamap, 'pre_processors')
+                    post_processors_valid = validate_processor(method, schemamap, 'post_processors')
+
+                    valid = all([pre_processors_valid, post_processors_valid])
+            else:
+                # Not having a schema for a given processor isn't an instant fail
+                Messages.print_warn(f"WARNING: No schema for {processor}: {name}")
+        except KeyError:
+            valid = False
+            Messages.print_fail(f"Missing {processor} key 'name'")
+
+    return valid
 
 
 def validate_files(item_descriptions: list, schemamap: dict):
@@ -24,8 +57,6 @@ def validate_files(item_descriptions: list, schemamap: dict):
     """
     v = Validator()
     GLOBAL_PASS = True
-    print_pass = f"{TextColours.BOLD}{TextColours.OKGREEN}Pass{TextColours.ENDC}"
-    print_fail = f"{TextColours.BOLD}{TextColours.FAIL}Fail{TextColours.FAIL}"
 
     for file in item_descriptions:
         valid = True
@@ -34,73 +65,15 @@ def validate_files(item_descriptions: list, schemamap: dict):
         # GENERAL VALIDATION, BASIC SCHEMA TO VALIDATE THAT ALL IMPORT ATTRIBUTES ARE PRESENT
         print(f"Validating: {file.split('/')[-1]}..", end="")
         if v.validate(desc, schemamap['base_schema']):
-            if extraction_methods := desc.get('facets', {}).get('extraction_methods'):
-                for method in extraction_methods:
-                    try:
-                        method_name = method['name']
-                        if method_name in schemamap['extraction_methods'].keys():
-                            schema = schemamap['extraction_methods'].get(method_name)
-                            # EXTRACTION_METHOD VALIDATION
-                            if v.validate(method, schema):
-                                if method.get('pre_processors'):
-                                    pre_processors = method['pre_processors']
-                                    for process in pre_processors:
-                                        try:
-                                            process_name = process['name']
-                                            if process_name in schemamap['pre_processors'].keys():
-                                                schema = schemamap['pre_processors'].get(process_name)
-                                                # PRE-PROCESSOR VALIDATION
-                                                if not v.validate(process, schema):
-                                                    valid = False
-                                                    print(f"{print_fail}\n"
-                                                          f"{TextColours.FAIL}{v.errors}{TextColours.ENDC}")
-                                            else:
-                                                valid = False
-                                                print(f"{print_fail}\n{TextColours.WARNING}"
-                                                      f"WARNING: No such pre_processor: {process_name}{TextColours.ENDC}")
-                                        except KeyError:
-                                            valid = False
-                                            print(f"{print_fail}"
-                                                  f"{TextColours.FAIL}Missing pre_process name{TextColours.ENDC}")
-                                if method.get('post_processors'):
-                                    processors = method['post_processors']
-                                    for process in processors:
-                                        try:
-                                            process_name = process['name']
-                                            if process_name in schemamap['post_processors'].keys():
-                                                schema = schemamap['post_processors'].get(process_name)
-                                                # POST-PROCESSOR VALIDATION
-                                                check = v.validate(process, schema)
-                                                if not check:
-                                                    valid = False
-                                                    print(f"{print_fail}\n"
-                                                          f"{TextColours.FAIL}{v.errors}{TextColours.ENDC}")
-                                            else:
-                                                valid = False
-                                                print(f"{print_fail}\n{TextColours.WARNING}"
-                                                      f"WARNING: No such pre_processor: {process_name}{TextColours.ENDC}")
-                                        except KeyError:
-                                            valid = False
-                                            print(f"{print_fail}"
-                                                  f"{TextColours.FAIL}Missing post_process name{TextColours.ENDC}")
-                            else:
-                                valid = False
-                                print(f"{print_fail}\n"
-                                      f"{TextColours.FAIL}{v.errors}{TextColours.ENDC}")
-                        else:
-                            valid = False
-                            print(f"{print_fail}\n{TextColours.WARNING}"
-                                  f"WARNING: No such extraction_method: {method_name}{TextColours.ENDC}")
-                    except KeyError:
-                        valid = False
-                        print(f"{print_fail}\n"
-                              f"{TextColours.FAIL}Missing extract_method name{TextColours.ENDC}")
+            if extraction_methods := desc.get('facets', {}):
+                valid = validate_processor(extraction_methods, schemamap, 'extraction_methods')
         else:
             valid = False
-            print(f"{print_fail}\n"
-                  f"{TextColours.FAIL}{v.errors}{TextColours.ENDC}")
+            Messages.print_errors(v)
+
+        # Check all tests were successful
         if valid:
-            print(print_pass)
+            Messages.print_pass()
         else:
             GLOBAL_PASS = False
 

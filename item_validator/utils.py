@@ -11,6 +11,8 @@ from glob import glob
 
 import yaml
 
+from .text_colours import TextColours
+
 
 def dir_path(arg: str) -> str:
     """
@@ -60,3 +62,29 @@ def get_schemamap(basepath):
         'post_processors': {os.path.splitext(f)[0]: load_dir(find_file(basepath, f)) for f in post_process_files}
     }
     return schemamap
+
+
+class Messages:
+    pass_message =  f"{TextColours.BOLD}{TextColours.OKGREEN}Pass{TextColours.ENDC}"
+    warn_message = f"{TextColours.BOLD}{TextColours.WARNING}Warning{TextColours.WARNING}"
+    fail_message = f"{TextColours.BOLD}{TextColours.FAIL}Fail{TextColours.FAIL}"
+
+    @classmethod
+    def print_errors(cls, v):
+        print(f"{cls.fail_message}\n"
+              f"{TextColours.FAIL}{v.errors}{TextColours.ENDC}")
+
+    @classmethod
+    def print_warn(cls, msg):
+        print(f"{cls.warn_message}\n"
+              f"{TextColours.WARNING}{msg}{TextColours.ENDC}")
+
+    @classmethod
+    def print_fail(cls, msg):
+        print(f"{cls.fail_message}\n"
+              f"{TextColours.FAIL}{msg}{TextColours.ENDC}")
+
+    @classmethod
+    def print_pass(cls):
+        print(cls.pass_message)
+
