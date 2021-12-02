@@ -26,7 +26,10 @@ class TestValidator:
             f"{os.path.join(root, 'tests', 'descriptions')}/neodc/**/*.yml", recursive=True)
         assert validate_files(item_descriptions, schemamap)
 
+    def test_warn(self):
+        item_descriptions = glob(f"{os.path.join(root, 'tests', 'descriptions')}/warn/**/*.yml", recursive=True)
+        assert validate_files(item_descriptions, schemamap)
+
     def test_invalid(self):
         item_descriptions = glob(f"{os.path.join(root, 'tests', 'descriptions')}/error/**/*.yml", recursive=True)
         assert not validate_files(item_descriptions, schemamap)
-
