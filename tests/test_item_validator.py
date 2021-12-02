@@ -11,7 +11,7 @@ from glob import glob
 from pathlib import Path
 
 from item_validator.utils import get_schemamap
-from item_validator.validator_script import validate_files
+from item_validator.validator import validate_files
 
 root = Path(os.path.abspath(__file__)).parent.parent
 basepath = os.path.join(root, 'item_validator')
