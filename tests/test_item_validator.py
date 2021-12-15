@@ -22,8 +22,7 @@ schemamap = get_schemamap(basepath)
 class TestValidator:
 
     def test_valid(self):
-        item_descriptions = glob(f"{os.path.join(root, 'tests', 'descriptions')}/badc/**/*.yml", recursive=True) + glob(
-            f"{os.path.join(root, 'tests', 'descriptions')}/neodc/**/*.yml", recursive=True)
+        item_descriptions = glob(f"{os.path.join(root, 'tests', 'descriptions')}/badc/**/*.yml", recursive=True)
         assert validate_files(item_descriptions, schemamap)
 
     def test_warn(self):
