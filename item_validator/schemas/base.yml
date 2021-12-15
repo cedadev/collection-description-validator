@@ -1,70 +1,22 @@
-datasets:
+paths:
     required: true
     type: list
     minlength: 1
     schema:
         type: string
-defaults:
-    required: false
-    type: dict
-    allow_unknown: true
-    schema:
-        properties:
-            required: false
-            type: dict
-            schema:
-                general_data_type:
-                    required: false
-                    type: string
-                    allowed:
-                        - laboratories
-                        - land surface stations
-                        - remote sensing instruments
-                        - sea surface stations
-                        - satellites
-                        - ships
-                        - aircraft
-                        - other mobile platforms
-                        - nwp models
-                        - climate models
-                        - reanalysis model runs
-                        - other computation types
-                        - undefined
-                permitted_use:
-                    required: false
-                    type: list
-mappings:
-    required: false
-    type: dict
-overrides:
-    required: false
-    type: dict
-categories:
-    required: false
-    type: list
-    schema:
-        type: dict
-        schema:
-            label:
-                type: string
-            regex:
-                type: string
-collection:
+collections:
     required: false
     type: dict
     allow_unknown: true
     schema:
         id:
-            required: true
+            required: false
             type: string
 facets:
     required: false
     allow_unknown: false
     type: dict
     schema:
-        allowed_facets:
-            required: false
-            type: list
         extraction_methods:
             required: false
             type: list
@@ -76,6 +28,51 @@ facets:
         search_facets:
             required: false
             type: list
+        defaults:
+            required: false
+            type: dict
+            allow_unknown: true
+            schema:
+                properties:
+                    required: false
+                    type: dict
+                    schema:
+                        general_data_type:
+                            required: false
+                            type: string
+                            allowed:
+                                - laboratories
+                                - land surface stations
+                                - remote sensing instruments
+                                - sea surface stations
+                                - satellites
+                                - ships
+                                - aircraft
+                                - other mobile platforms
+                                - nwp models
+                                - climate models
+                                - reanalysis model runs
+                                - other computation types
+                                - undefined
+                        permitted_use:
+                            required: false
+                            type: list
+        mappings:
+            required: false
+            type: dict
+        overrides:
+            required: false
+            type: dict
+categories:
+    required: false
+    type: list
+    schema:
+        type: dict
+        schema:
+            label:
+                type: string
+            regex:
+                type: string
 templates:
     required: false
     allow_unknown: false

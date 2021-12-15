@@ -1,12 +1,8 @@
-datasets:
+paths:
   - /badc/faam/data
-collection:
+collections:
   id: WH5qEHoBZp5aDdjsfMv-
 facets:
-  allowed_facets:
-    - project
-    - flight_number
-    - datetime
   extraction_methods:
     - name: extract_invalid
       description: "Extract facets and datetime from filepath"

@@ -78,7 +78,7 @@ setup(
                     "dev": dev_requirements},
     url='https://github.com/Mahir-Sparkess/item_validator',
     zip_safe=False,
-    version='1.0',
+    version='2.0.0',
     entry_points={
         'console_scripts': [
             'item-desc-validator = item_validator.validator_script:main',
