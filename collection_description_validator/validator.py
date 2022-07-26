@@ -34,12 +34,14 @@ def validate_processor(processors: dict, schemamap: dict, processor: str) -> boo
 
                 # Validation succeeded. Try pre and post processors.
                 else:
-                    pre_processors_valid = validate_processor(
-                        method, schemamap, "pre_processors"
-                    )
-                    post_processors_valid = validate_processor(
-                        method, schemamap, "post_processors"
-                    )
+                    if pre_processors := method.get("pre_processors"):
+                        pre_processors_valid = validate_processor(
+                            pre_processors, schemamap, "pre_processors"
+                        )
+                    if post_processors := method.get("post_processors"):
+                        post_processors_valid = validate_processor(
+                            post_processors, schemamap, "post_processors"
+                        )
 
                     valid = all([pre_processors_valid, post_processors_valid])
             else:
