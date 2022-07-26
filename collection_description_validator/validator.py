@@ -15,11 +15,10 @@ from cerberus import Validator
 from .utils import load_dir, Messages
 
 
-def validate_processor(description: dict, schemamap: dict, processor: str) -> bool:
+def validate_processor(processors: dict, schemamap: dict, processor: str) -> bool:
     """"""
     valid = True
     v = Validator()
-    processors = description.get(processor, [])
     for method in processors:
         try:
             # All processors must have a name defined
