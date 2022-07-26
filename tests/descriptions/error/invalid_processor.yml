@@ -1,12 +1,13 @@
-datasets:
+paths:
   - /badc/faam/data
-collection:
-  id: WH5qEHoBZp5aDdjsfMv-
-facets:
-  allowed_facets:
-    - project
-    - flight_number
-    - datetime
+
+collections:
+  id:
+    method: default
+    inputs:
+      value: WH5qEHoBZp5aDdjsfMv-
+
+asset:
   extraction_methods:
     - name: regex
       description: "Extract facets and datetime from filepath"
@@ -19,13 +20,10 @@ facets:
               - year
               - month
               - day
-            delimiter: '-'
+            delimiter: "-"
             output_key: datetime
       pre_processors:
         - name: pre_invalid
           inputs:
             date_keys:
               - datetime
-  aggregation_facets:
-    - platform
-    - flight_number

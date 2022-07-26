@@ -1,17 +1,14 @@
-datasets:
+paths:
   - /badc/faam/data
-collection:
-  id: WH5qEHoBZp5aDdjsfMv-
-facets:
-  allowed_facets:
-    - project
-    - flight_number
-    - datetime
+
+collections:
+  id:
+    method: default
+    inputs:
+      value: WH5qEHoBZp5aDdjsfMv-
+
+asset:
   extraction_methods:
     - name: regex
-      description: "Extract facets and datetime from filepath"
       inputs:
         incorrect_input_param: '^\/(?:[^/]*/)(?P<platform>\w*)\/(?:[^/]*/){1}(?P<year>\d*)\/(?P<flight_number>\w\d{3})-(?P<month>\w+)-(?P<day>\d{2})'
-  aggregation_facets:
-    - platform
-    - flight_number

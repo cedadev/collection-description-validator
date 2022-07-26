@@ -1,7 +1,7 @@
 name:
     required: true
     type: string
-    regex: isodate_processor
+    regex: isodate
 inputs:
     type: dict
     schema:

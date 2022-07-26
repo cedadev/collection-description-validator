@@ -1,4 +1,4 @@
-* Item Description Validator version:
+* Collection Description Validator version:
 * Python version:
 * Operating System:
 

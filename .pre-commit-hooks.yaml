@@ -1,7 +1,7 @@
-- id: item-desc-validator
-  name: Item Description Validator
-  description: Check description of items against schemas
-  entry: item-desc-validator
+- id: collection-desc-validator
+  name: Collection Description Validator
+  description: Check description of collections against schemas
+  entry: collection-desc-validator
   always_run: true
   pass_filenames: false
   verbose: true

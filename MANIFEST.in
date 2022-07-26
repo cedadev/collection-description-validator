@@ -1,2 +1,2 @@
-include item_validator/schemas/**/*.yml
-include item_validator/schemas/*.yml
+include collection_description_validator/schemas/**/*.yml
+include collection_description_validator/schemas/*.yml
