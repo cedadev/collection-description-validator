@@ -1,17 +1,17 @@
 paths:
   - /badc
-facets:
-    defaults:
-      properties:
+
+asset:
+  extraction_methods:
+    - name: default
+      inputs:
         general_data_type: undefined
         inspire_theme: Meteorological geographical features
         gemet_topic:
           - Climatology, meteorology, atmosphere
         permitted_use:
           - undefined
-    search_facets:
-        - general_data_type
-        - permitted_use
+
 categories:
   - label: metadata
     regex: 00README

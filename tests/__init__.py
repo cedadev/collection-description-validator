@@ -1,6 +1,6 @@
-"""Unit test package for item_validator."""
+"""Unit test package for collection_description_validator."""
 
 __author__ = """Mahir Rahman"""
-__contact__ = 'kazi.mahir@stfc.ac.uk'
+__contact__ = "kazi.mahir@stfc.ac.uk"
 __copyright__ = "Copyright 2020 United Kingdom Research and Innovation"
 __license__ = "BSD - see LICENSE file in top-level package directory"

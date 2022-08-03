@@ -1,4 +1,4 @@
 name:
     required: true
     type: string
-    regex: filename_reducer
+    regex: basename

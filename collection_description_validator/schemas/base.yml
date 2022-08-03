@@ -1,0 +1,67 @@
+paths:
+    required: true
+    type: list
+    minlength: 1
+    schema:
+        type: string
+
+collection:
+    required: false
+    type: dict
+    allow_unknown: true
+    schema:
+        id:
+            required: false
+            type: dict
+        extraction_methods:
+            required: false
+            type: list
+            allow_unknown: true
+item:
+    required: false
+    type: dict
+    allow_unknown: true
+    schema:
+        id:
+            required: false
+            type: dict
+        extraction_methods:
+            required: false
+            type: list
+            allow_unknown: true
+
+asset:
+    required: false
+    type: dict
+    allow_unknown: true
+    schema:
+        id:
+            required: false
+            type: dict
+        extraction_methods:
+            required: false
+            type: list
+            allow_unknown: true
+
+categories:
+    required: false
+    type: list
+    schema:
+        type: dict
+        schema:
+            label:
+                type: string
+            regex:
+                type: string
+
+templates:
+    required: false
+    allow_unknown: false
+    type: dict
+    schema:
+        title_template:
+            required: false
+            type: string
+        description_template:
+            required: false
+            type: string

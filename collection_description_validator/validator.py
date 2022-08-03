@@ -2,11 +2,11 @@
 """
 The validation function
 """
-__author__ = 'Richard Smith'
-__date__ = '02 Dec 2021'
-__copyright__ = 'Copyright 2018 United Kingdom Research and Innovation'
-__license__ = 'BSD - see LICENSE file in top-level package directory'
-__contact__ = 'richard.d.smith@stfc.ac.uk'
+__author__ = "Richard Smith"
+__date__ = "02 Dec 2021"
+__copyright__ = "Copyright 2018 United Kingdom Research and Innovation"
+__license__ = "BSD - see LICENSE file in top-level package directory"
+__contact__ = "richard.d.smith@stfc.ac.uk"
 
 # Third-part imports
 from cerberus import Validator
@@ -15,15 +15,14 @@ from cerberus import Validator
 from .utils import load_dir, Messages
 
 
-def validate_processor(description: dict, schemamap: dict, processor: str) -> bool:
+def validate_processor(processors: dict, schemamap: dict, processor: str) -> bool:
     """"""
     valid = True
     v = Validator()
-    processors = description.get(processor, [])
     for method in processors:
         try:
             # All processors must have a name defined
-            name = method['name']
+            name = method["name"]
 
             # Find the schema for the given processor
             if schema := schemamap[processor].get(name):
@@ -35,8 +34,14 @@ def validate_processor(description: dict, schemamap: dict, processor: str) -> bo
 
                 # Validation succeeded. Try pre and post processors.
                 else:
-                    pre_processors_valid = validate_processor(method, schemamap, 'pre_processors')
-                    post_processors_valid = validate_processor(method, schemamap, 'post_processors')
+                    if pre_processors := method.get("pre_processors"):
+                        pre_processors_valid = validate_processor(
+                            pre_processors, schemamap, "pre_processors"
+                        )
+                    if post_processors := method.get("post_processors"):
+                        post_processors_valid = validate_processor(
+                            post_processors, schemamap, "post_processors"
+                        )
 
                     valid = all([pre_processors_valid, post_processors_valid])
             else:
@@ -49,7 +54,7 @@ def validate_processor(description: dict, schemamap: dict, processor: str) -> bo
     return valid
 
 
-def validate_files(item_descriptions: list, schemamap: dict):
+def validate_files(collection_descriptions: list, schemamap: dict):
     """
     Creates a cerberus validator.
     The validator first checks that the top level attributes are present.
@@ -58,15 +63,32 @@ def validate_files(item_descriptions: list, schemamap: dict):
     v = Validator()
     GLOBAL_PASS = True
 
-    for file in item_descriptions:
+    for file in collection_descriptions:
         valid = True
         desc = load_dir(file)
 
         # GENERAL VALIDATION, BASIC SCHEMA TO VALIDATE THAT ALL IMPORT ATTRIBUTES ARE PRESENT
         print(f"Validating: {file.split('/')[-1]}..", end="")
-        if v.validate(desc, schemamap['base_schema']):
-            if extraction_methods := desc.get('facets', {}):
-                valid = validate_processor(extraction_methods, schemamap, 'extraction_methods')
+        if v.validate(desc, schemamap["base_schema"]):
+
+            if extraction_methods := desc.get("collection", {}).get(
+                "extraction_methods", {}
+            ):
+                valid = validate_processor(
+                    extraction_methods, schemamap, "extraction_methods"
+                )
+
+            if extraction_methods := desc.get("item", {}).get("extraction_methods", {}):
+                valid = validate_processor(
+                    extraction_methods, schemamap, "extraction_methods"
+                )
+
+            if extraction_methods := desc.get("asset", {}).get(
+                "extraction_methods", {}
+            ):
+                valid = validate_processor(
+                    extraction_methods, schemamap, "extraction_methods"
+                )
         else:
             valid = False
             Messages.print_errors(v)
