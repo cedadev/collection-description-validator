@@ -13,6 +13,12 @@ collection:
         id:
             required: false
             type: dict
+        licence:
+            required: false
+            type: string
+        description:
+            required: false
+            type: string
         extraction_methods:
             required: false
             type: list
@@ -42,17 +48,6 @@ asset:
             required: false
             type: list
             allow_unknown: true
-
-categories:
-    required: false
-    type: list
-    schema:
-        type: dict
-        schema:
-            label:
-                type: string
-            regex:
-                type: string
 
 templates:
     required: false

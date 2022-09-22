@@ -9,6 +9,6 @@ collection:
 
 asset:
   extraction_methods:
-    - name: regex
+    - method: regex
       inputs:
         incorrect_input_param: '^\/(?:[^/]*/)(?P<platform>\w*)\/(?:[^/]*/){1}(?P<year>\d*)\/(?P<flight_number>\w\d{3})-(?P<month>\w+)-(?P<day>\d{2})'

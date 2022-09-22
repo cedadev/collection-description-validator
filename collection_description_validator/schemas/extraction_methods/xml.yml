@@ -1,4 +1,4 @@
-name:
+method:
     required: true
     type: string
     regex: xml

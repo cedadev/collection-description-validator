@@ -9,12 +9,12 @@ collection:
 
 asset:
   extraction_methods:
-    - name: regex
+    - method: regex
       description: "Extract facets and datetime from filepath"
       inputs:
         regex: '^\/(?:[^/]*/)(?P<platform>\w*)\/(?:[^/]*/){1}(?P<year>\d*)\/(?P<flight_number>\w\d{3})-(?P<month>\w+)-(?P<day>\d{2})'
       post_processors:
-        - name: post_invalid
+        - method: post_invalid
           inputs:
             key_list:
               - year
@@ -23,7 +23,7 @@ asset:
             delimiter: "-"
             output_key: datetime
       pre_processors:
-        - name: pre_invalid
+        - method: pre_invalid
           inputs:
             date_keys:
               - datetime

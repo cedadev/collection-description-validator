@@ -1,4 +1,4 @@
-name:
+method:
     required: true
     type: string
     regex: ceda_observation
@@ -7,4 +7,3 @@ inputs:
     schema:
         url_template:
             type: string
-
