@@ -49,17 +49,6 @@ asset:
             type: list
             allow_unknown: true
 
-categories:
-    required: false
-    type: list
-    schema:
-        type: dict
-        schema:
-            label:
-                type: string
-            regex:
-                type: string
-
 templates:
     required: false
     allow_unknown: false
