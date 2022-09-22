@@ -1,7 +1,7 @@
 method:
     required: true
     type: string
-    regex: isodate
+    regex: iso_date
 inputs:
     type: dict
     schema:

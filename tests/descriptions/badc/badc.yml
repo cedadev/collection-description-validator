@@ -5,9 +5,10 @@ asset:
   extraction_methods:
     - method: default
       inputs:
-        general_data_type: undefined
-        inspire_theme: Meteorological geographical features
-        gemet_topic:
-          - Climatology, meteorology, atmosphere
-        permitted_use:
-          - undefined
+        defaults:
+          general_data_type: undefined
+          inspire_theme: Meteorological geographical features
+          gemet_topic:
+            - Climatology, meteorology, atmosphere
+          permitted_use:
+            - undefined
