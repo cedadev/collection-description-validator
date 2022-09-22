@@ -3,7 +3,7 @@ paths:
 
 asset:
   extraction_methods:
-    - name: default
+    - method: default
       inputs:
         general_data_type: undefined
         inspire_theme: Meteorological geographical features
@@ -11,9 +11,3 @@ asset:
           - Climatology, meteorology, atmosphere
         permitted_use:
           - undefined
-
-categories:
-  - label: metadata
-    regex: 00README
-  - label: hidden
-    regex: \/\.
