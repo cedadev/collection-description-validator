@@ -12,7 +12,7 @@ __contact__ = "richard.d.smith@stfc.ac.uk"
 from cerberus import Validator
 
 # Local imports
-from .utils import load_dir, Messages
+from .utils import Messages, load_dir
 
 
 def validate_processor(processors: dict, schemamap: dict, processor: str) -> bool:
@@ -22,7 +22,7 @@ def validate_processor(processors: dict, schemamap: dict, processor: str) -> boo
     for method in processors:
         try:
             # All processors must have a name defined
-            name = method["name"]
+            name = method["method"]
 
             # Find the schema for the given processor
             if schema := schemamap[processor].get(name):
@@ -49,7 +49,7 @@ def validate_processor(processors: dict, schemamap: dict, processor: str) -> boo
                 Messages.print_warn(f"WARNING: No schema for {processor}: {name}")
         except KeyError:
             valid = False
-            Messages.print_fail(f"Missing {processor} key 'name'")
+            Messages.print_fail(f"Missing {processor} key 'method'")
 
     return valid
 
