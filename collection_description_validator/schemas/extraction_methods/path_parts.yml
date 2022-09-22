@@ -1,0 +1,14 @@
+method:
+    required: true
+    type: string
+    regex: path_parts
+description:
+    required: false
+    type: string
+inputs:
+    required: false
+    type: dict
+post_processors:
+    required: false
+    type: list
+    allow_unknown: true

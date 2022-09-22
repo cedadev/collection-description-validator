@@ -1,0 +1,20 @@
+method:
+    required: true
+    type: string
+    regex: file_stats
+description:
+    required: false
+    type: string
+inputs:
+    type: dict
+    schema:
+        backend:
+            type: string
+pre_processors:
+    required: false
+    type: list
+    allow_unknown: true
+post_processors:
+    required: false
+    type: list
+    allow_unknown: true

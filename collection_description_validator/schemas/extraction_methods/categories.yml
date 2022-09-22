@@ -1,0 +1,21 @@
+method:
+    required: true
+    type: string
+    regex: categories
+description:
+    required: false
+    type: string
+inputs:
+    type: dict
+    schema:
+        categories:
+            type: list
+            allow_unknown: true
+pre_processors:
+    required: false
+    type: list
+    allow_unknown: true
+post_processors:
+    required: false
+    type: list
+    allow_unknown: true

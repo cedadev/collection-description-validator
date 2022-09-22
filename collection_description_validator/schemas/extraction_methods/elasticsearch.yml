@@ -1,0 +1,33 @@
+method:
+    required: true
+    type: string
+    regex: elasticsearch
+description:
+    required: false
+    type: string
+inputs:
+    type: dict
+    schema:
+        index:
+            type: string
+        session_kwargs:
+            type: dict
+            allow_unknown: true
+        bbox:
+            type: list
+        min:
+            type: list
+        max:
+            type: list
+        sum:
+            type: list
+        list:
+            type: list
+pre_processors:
+    required: false
+    type: list
+    allow_unknown: true
+post_processors:
+    required: false
+    type: list
+    allow_unknown: true

@@ -34,16 +34,21 @@ def validate_processor(processors: dict, schemamap: dict, processor: str) -> boo
 
                 # Validation succeeded. Try pre and post processors.
                 else:
+                    extra_processors_valid = []
                     if pre_processors := method.get("pre_processors"):
-                        pre_processors_valid = validate_processor(
-                            pre_processors, schemamap, "pre_processors"
+                        extra_processors_valid.append(
+                            validate_processor(
+                                pre_processors, schemamap, "pre_processors"
+                            )
                         )
                     if post_processors := method.get("post_processors"):
-                        post_processors_valid = validate_processor(
-                            post_processors, schemamap, "post_processors"
+                        extra_processors_valid.append(
+                            validate_processor(
+                                post_processors, schemamap, "post_processors"
+                            )
                         )
 
-                    valid = all([pre_processors_valid, post_processors_valid])
+                    valid = all(extra_processors_valid)
             else:
                 # Not having a schema for a given processor isn't an instant fail
                 Messages.print_warn(f"WARNING: No schema for {processor}: {name}")

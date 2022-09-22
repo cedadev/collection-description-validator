@@ -23,6 +23,7 @@ collection:
             required: false
             type: list
             allow_unknown: true
+
 item:
     required: false
     type: dict
